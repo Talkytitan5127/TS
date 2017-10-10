@@ -6,6 +6,7 @@
 задачи линейного программирования
 
 Вариант № 5 '''
+from fractions import Fraction
 
 global n, m #кол-во строк и столбцов
 
@@ -22,7 +23,7 @@ def getData():
     with open('tab1.txt', 'r') as f:
         n, m = map(int, f.readline().strip().split())
         for i in range(4):
-            mas.append(list(map(float, f.readline().strip().split())))
+            mas.append(list(map(Fraction, f.readline().strip().split())))
     
     return mas, n, m
 
