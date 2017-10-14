@@ -30,7 +30,7 @@ def getData():
 
 #проверяем F строку на положительные элементы
 def checkF(mas):
-    for i in range(n):
+    for i in range(n-1):
         if mas[i][0] < 0:
             return 0
 
