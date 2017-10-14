@@ -22,7 +22,7 @@ def getData():
     m = 0
     with open('tab1.txt', 'r') as f:
         n, m = map(int, f.readline().strip().split())
-        for i in range(4):
+        for i in range(n):
             mas.append(list(map(Fraction, f.readline().strip().split())))
 
     return mas, n, m
