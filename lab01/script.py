@@ -6,17 +6,17 @@
 задачи линейного программирования
 
 Вариант № 5 '''
+
 from fractions import Fraction
 
 global n, m #кол-во строк и столбцов
-
 
 '''
 чтение данных из файла
 в первой строке записывается кол-во строк и столбцов
 в последующих строках задается исходная симплекс-таблица
 '''
-def getData(): 
+def getData():
     mas = []
     n = 0
     m = 0
@@ -24,13 +24,17 @@ def getData():
         n, m = map(int, f.readline().strip().split())
         for i in range(4):
             mas.append(list(map(Fraction, f.readline().strip().split())))
-    
+
     return mas, n, m
 
 
 #проверяем F строку на положительные элементы
 def checkF(mas):
-    for i in range(m):
+    for i in range(n):
+        if mas[i][0] < 0:
+            return 0
+
+    for i in range(1, m):
         if mas[n-1][i] > 0:
             return 0
     else:
@@ -83,7 +87,7 @@ def findRTable(mas, st=-1):
 def ChangeMas(mas, st, col):
     res = [[0]*m for i in range(n)]
     res[st][col] = 1 / mas[st][col]
-    
+
     for i in range(n):
         if i != st:
             res[i][col] = (-1) * mas[i][col] / mas[st][col]
@@ -105,7 +109,6 @@ if __name__ == '__main__':
 
     SimpTab, n, m = getData()
     print(" первоначальная Симплекс-таблица\n")
-   
     for i in SimpTab:
         print(*i)
 
@@ -113,7 +116,7 @@ if __name__ == '__main__':
 
     while not checkF(SimpTab):
         print('Итерация', q)
-        
+
         f = checkS0(SimpTab)
         st = -1
         col = -1
@@ -134,3 +137,6 @@ if __name__ == '__main__':
         for i in SimpTab:
             print(*i)
         q += 1
+
+
+
