@@ -108,18 +108,39 @@ def ChangeMas(mas, st, col):
 if __name__ == '__main__':
 
     SimpTab, n, m = getData()
-    print(" первоначальная Симплекс-таблица\n")
+
+    perCol = {}
+    perSt = {}
+
+    for i in range(m-1):
+      perCol[i] = i+1
+
+    for j in range(n-1):
+      perSt[j] = n+j
+
+    print("переменные столбцов не учитывая S:")
+    for i in range(m-1):
+      print("x{}".format(perCol[i]), end=" ")
+    print()
+
+    print("\nпеременные строк ^T не учитывая F:")
+    for j in range(n-1):
+      print("x{}".format(perSt[j]), end=" ")
+    print()
+
+    print("\nпервоначальная Симплекс-таблица")
     for i in SimpTab:
         print(*i)
 
     q = 0
 
     while not checkF(SimpTab):
-        print('Итерация', q)
+        print('\nИтерация', q)
 
         f = checkS0(SimpTab)
         st = -1
         col = -1
+
 
         if f != -1:
             st = f
@@ -128,11 +149,29 @@ if __name__ == '__main__':
             col = findRTable(SimpTab)
             st = findRString(SimpTab, col)
 
-        print('Разрешающая строка = {} Разрешающий столбец = {}'.format(st+1, col+1))
+        if not col:
+          print("Недопустимое решение")
+          break
+
+        print('\nРазрешающая строка = {} Разрешающий столбец = {}\n'.format(st+1, col+1))
+
+        per = perCol[col-1]
+        perCol[col-1] = perSt[st]
+        perSt[st] = per
 
         SimpTab = ChangeMas(SimpTab, st, col)
 
-        print("Новая симплекс-таблица\n")
+        print("переменные столбцов не учитывая S:")
+        for i in range(m-1):
+          print("x{}".format(perCol[i]), end=" ")
+        print()
+
+        print("\nпеременные строк ^T не учитывая F:")
+        for j in range(n-1):
+          print("x{}".format(perSt[j]), end=" ")
+        print()
+
+        print("\nНовая симплекс-таблица")
 
         for i in SimpTab:
             print(*i)
