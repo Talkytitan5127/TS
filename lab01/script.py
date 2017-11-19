@@ -72,11 +72,17 @@ def findRString(mas, col=-1):
 
 #нахождение разрешающего столбца
 def findRTable(mas, st=-1):
-
     if st != -1:
+        mi = mas[st][1]
+        ind = 1
         for i in range(1, m):
-            if mas[st][i] < 0:
-                return i
+            if mas[st][i] < mi:
+                mi = mas[st][i]
+                ind = i
+        if mi >= 0:
+          return None
+        else:
+          return ind
     else:
         for i in range(1, m):
             if mas[n-1][i] > 0:
@@ -116,7 +122,7 @@ if __name__ == '__main__':
       perCol[i] = i+1
 
     for j in range(n-1):
-      perSt[j] = n+j
+      perSt[j] = m+j
 
     print("переменные столбцов не учитывая S:")
     for i in range(m-1):
@@ -141,10 +147,13 @@ if __name__ == '__main__':
         st = -1
         col = -1
 
-
         if f != -1:
             st = f
             col = findRTable(SimpTab, st)
+            if not col:
+                print("Недопустимое решение")
+                break
+            st = findRString(SimpTab, col)
         else:
             col = findRTable(SimpTab)
             st = findRString(SimpTab, col)
@@ -174,8 +183,8 @@ if __name__ == '__main__':
         print("\nНовая симплекс-таблица")
 
         for i in SimpTab:
-            print(*i)
+            for j in i:
+              print("  {}  ".format(j), end=" ")
+            print()
+
         q += 1
-
-
-
